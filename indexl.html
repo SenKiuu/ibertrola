@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --brand-primary: #2e6f1e;
+      --brand-dark: #1f331e;
+      --brand-accent: #4c9a2a;
+      --text-main: #2c3531;
+      --text-muted: #5f6b65;
+      --bg-page: #f9faf8;
+      --card-bg: #ffffff;
+      --border-soft: #b8c4bc;
+      --alert-red: #d9381e;
+    }   
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Banner fijo de simulación educativa */
+    .sim-banner {
+      background: #fff4cc;
+      border-bottom: 2px solid #e0b400;
+      color: #4d3900;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .sim-banner span.badge {
+      background: #4d3900;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Barra superior con logo ficticio */
+    header.top-header {
+      max-width: 1180px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 22px 24px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      text-decoration: none;
+      color: var(--brand-primary);
+      font-weight: 400;
+      font-size: 1.55rem;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+
+    .brand-logo .year-tag {
+      font-weight: 700;
+      color: #1c5f9e;
+      font-size: 1.35rem;
+    }
+
+    /* Contenedor principal */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 16px 48px;
+    }
+
+    /* Tarjeta central de login */
+    .login-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 410px;
+      border-radius: 16px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+      padding: 36px 38px 32px;
+      margin-bottom: 42px;
+      text-align: center;
+      position: relative;
+    }
+
+    .login-card h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 12px;
+    }
+
+    .login-card p.subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .form-label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      padding-left: 8px;
+    }
+
+    .form-label-row label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .info-dot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4fa8db;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: default;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      height: 44px;
+      border: 1.5px solid var(--border-soft);
+      border-radius: 999px;
+      padding: 0 42px 0 18px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(46, 111, 30, 0.14);
+    }
+
+    .toggle-eye {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6b756f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .toggle-eye:hover {
+      color: var(--text-main);
+    }
+
+    .warning-validation {
+      display: none;
+      background: #fdecea;
+      color: #a61c1c;
+      border: 1px solid #f5c2c0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .btn-submit {
+      width: 195px;
+      height: 42px;
+      border-radius: 999px;
+      border: none;
+      background: var(--brand-primary);
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin: 8px auto 20px;
+      display: block;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-submit:hover {
+      background: #235816;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .card-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.84rem;
+    }
+
+    .card-links a {
+      color: var(--brand-primary);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .card-links .register-row {
+      color: var(--text-muted);
+    }
+
+    /* Sección inferior de gestiones */
+    .secondary-section {
+      width: 100%;
+      max-width: 1060px;
+      text-align: center;
+    }
+
+    .secondary-section h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 24px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .info-card .icon-box {
+      width: 58px;
+      height: 58px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .info-card p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 10px 36px;
+      border-radius: 999px;
+      border: 1.5px solid var(--brand-primary);
+      color: var(--brand-primary);
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Pie de página */
+    footer.site-footer {
+      background: var(--brand-dark);
+      color: #b2bfb5;
+      padding: 22px 28px;
+      font-size: 0.78rem;
+    }
+
+    .footer-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #b2bfb5;
+      text-decoration: none;
+    }
+
+    .footer-links a.bold-link {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .footer-brand {
+      text-align: right;
+    }
+
+    .footer-brand .mini-logo {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    /* Resaltado de pistas (Red Flags) para la explicación posterior */
+    .red-flag-active {
+      outline: 3px dashed var(--alert-red) !important;
+      outline-offset: 4px;
+      background-color: rgba(217, 56, 30, 0.08) !important;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .flag-tooltip {
+      display: none;
+      margin-top: 6px;
+      background: var(--alert-red);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    body.show-flags .flag-tooltip {
+      display: block;
+    }
+
+    /* Panel educativo / Consola local en vivo */
+    .demo-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #14191f;
+      color: #e6edf3;
+      border-top: 4px solid #3fb950;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      padding: 20px 24px;
+    }
+
+    .demo-drawer.open {
+      transform: translateY(0);
+    }
+
+    .demo-drawer.open.minimized {
+      transform: translateY(calc(100% - 42px));
+    }
+
+    .drawer-top-bar {
+      max-width: 1100px;
+      margin: -10px auto 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-minimize-drawer {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-minimize-drawer:hover {
+      background: #30363d;
+      color: #ffffff;
+    }
+
+    .drawer-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .drawer-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .edu-message-box {
+      background: rgba(63, 185, 80, 0.12);
+      border-left: 4px solid #3fb950;
+      padding: 14px 18px;
+      border-radius: 8px;
+    }
+
+    .edu-message-box h3 {
+      color: #56d364;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .edu-message-box p.main-quote {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .drawer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-drawer {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid #484f58;
+      background: #21262d;
+      color: #e6edf3;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-drawer.highlight {
+      background: #d9381e;
+      border-color: #f85149;
+      color: #fff;
+    }
+
+    .terminal-box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.85rem;
+    }
+
+    .terminal-header {
+      color: #8b949e;
+      font-size: 0.75rem;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .terminal-log {
+      max-height: 115px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-entry {
+      color: #a5d6ff;
+    }
+
+    .log-entry .plain-pass {
+      color: #ffa657;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera con logotipo ficticio y matiz sutil #1 (hoja amarilla + nombre alterado) -->
+  <header class="top-header">
+    <div id="flag-logo">
+      <a href="#inicio" class="brand-logo" onclick="return false;">
+        <span class="year-tag">125</span>
+        <!-- Icono vectorial de 3 hojas donde la hoja derecha es AMARILLA en lugar de naranja -->
+        <svg width="36" height="30" viewBox="0 0 36 30" aria-hidden="true">
+          <!-- Hoja verde -->
+          <path d="M9 26 C3 19, 5 9, 12 4 C14 11, 14 19, 9 26 Z" fill="#2e8b22" />
+          <!-- Hoja azul -->
+          <path d="M18 26 C13 19, 15 9, 21 4 C23 11, 23 19, 18 26 Z" fill="#2295d4" />
+          <!-- Hoja AMARILLA (matiz sutil para señalar en la charla) -->
+          <path d="M27 26 C22 19, 24 9, 30 4 C32 11, 32 19, 27 26 Z" fill="#ffd000" stroke="#d4ac00" stroke-width="0.6" />
+        </svg>
+        <span>Iberdrola</span>
+      </a>
+      <div class="flag-tooltip">
+        Pista #1: Variación sutil en los colores del logotipo (tercera hoja en amarillo) para imitar la estética corporativa.
+      </div>
+    </div>
+  </header>
+
+  <!-- Cuerpo principal: va directamente al Login y Password -->
+  <main>
+    <section class="login-card" aria-labelledby="login-title">
+      <h1 id="login-title">¿Ya estás registrado?</h1>
+
+      <div id="flag-subtitle">
+        <p class="subtitle">
+          Accede a Mi Área Cliente y empieza a<br />
+          gestionar tus contratos desde cualquier lugar.
+        </p>
+      </div>
+
+      <!-- Pista #4: mensaje que introduce presión y urgencia -->
+      <div id="flag-urgency">
+        <p class="subtitle" style="color: #a33b2b; font-size: 0.82rem; margin-top: -12px;">
+          Aviso: comprueba el estado de tu sesión para evitar interrupciones.
+        </p>
+        <div class="flag-tooltip">
+          Pista #4: El mensaje introduce urgencia para animar al usuario a actuar sin comprobar primero la dirección y el origen de la página.
+        </div>
+      </div>
+
+      <form id="demo-form" autocomplete="off" novalidate>
+        <!-- Campo Usuario / Alias -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="alias-input">Usuario</label>
+            <span class="info-dot" title="Introduce un alias ficticio para la demostración">i</span>
+          </div>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="alias-input"
+              name="alias_demo"
+              autocomplete="off"
+              spellcheck="false"
+              maxlength="30"
+              placeholder=""
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Campo Contraseña / Palabra ficticia -->
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="secret-input">Contraseña</label>
+          </div>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="secret-input"
+              name="palabra_demo"
+              autocomplete="new-password"
+              maxlength="30"
+              placeholder=""
+              required
+            />
+            <button
+              type="button"
+              class="toggle-eye"
+              id="toggle-eye-btn"
+              aria-label="Mostrar u ocultar caracteres en pantalla"
+              title="Mostrar/ocultar asteriscos"
+            >
+              <!-- Icono ojo tachado -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="validation-msg" class="warning-validation"></div>
+
+        <button type="submit" class="btn-submit">Entrar</button>
+
+        <div class="card-links" id="flag-links">
+          <!-- Matiz sutil #2: errata sutil y enlaces sin destino real -->
+          <a href="#recuperar" onclick="return false;">¿No recuerdas tu contraseńa?</a>
+          <div class="register-row">
+            ¿Aún no tienes cuenta? <a href="#registro" onclick="return false;">Regístrate</a>
+          </div>
+          <div class="flag-tooltip">
+            Pista #2: Carácter extraño en «contraseńa» (ń con tilde en vez de ñ) y enlaces secundarios sin destino real.
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Sección secundaria de contexto energético -->
+    <section class="secondary-section">
+      <h2>¿Quieres hacer alguna gestión sin hacer login?</h2>
+
+      <div class="cards-grid">
+        <article class="info-card">
+          <div class="icon-box">
+            <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+              <rect x="8" y="16" width="32" height="20" rx="4" fill="#63b32e" />
+              <circle cx="24" cy="26" r="5" fill="#2e6f1e" />
+              <text x="12" y="14" fill="#7ec845" font-size="12" font-weight="bold">€</text>
+            </svg>
+          </div>
+          <h3>Facturas y Pagos</h3>
+          <p>Da la lectura de tu contador, paga online o suscríbete a la factura electrónica entre otras gestiones.</p>
+        </article>
+
+        <article class="info-card">
+          <div class="icon-box">
+            <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="9" stroke="#5aa628" stroke-width="6" />
+              <circle cx="24" cy="24" r="3" fill="#2e6f1e" />
+              <path d="M24 6v5M24 37v5M6 24h5M37 24h5M11 11l3.5 3.5M33.5 33.5L37 37M37 11l-3.5 3.5M14.5 33.5L11 37" stroke="#5aa628" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Gestiones de tu contrato</h3>
+          <p>Cambia tu potencia, cambia el titular, domicilia tus facturas y mucho más.</p>
+        </article>
+
+        <article class="info-card">
+          <div class="icon-box">
+            <svg width="46" height="46" viewBox="0 0 48 48" fill="none">
+              <path d="M14 8h14l8 8v24a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z" fill="#63b32e"/>
+              <circle cx="32" cy="30" r="6" fill="#2e6f1e"/>
+              <text x="30" y="34" fill="#fff" font-size="11" font-weight="bold">!</text>
+            </svg>
+          </div>
+          <h3>Reclamaciones y trámites</h3>
+          <p>Haz seguimiento de tus reclamaciones para saber en qué punto están.</p>
+        </article>
+      </div>
+
+      <a href="#todas" class="btn-outline" onclick="return false;">Ver todas las gestiones</a>
+    </section>
+  </main>
+
+  <!-- Pie de página con matiz sutil #3 (dominio con número 0) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links" id="flag-domain">
+        <a href="#legal" onclick="return false;">Información legal y política de cookies</a>
+        <span>|</span>
+        <a href="#privacidad" onclick="return false;">Política de privacidad</a>
+        <span>|</span>
+        <a href="#portal" class="bold-link" onclick="return false;">iberdr0la.es</a>
+        <div class="flag-tooltip">
+          Pista #3: Dominio escrito con un cero («Iberdr0la.es») en lugar de la letra «o».
+        </div>
+      </div>
+
+      <div class="footer-brand">
+        <div class="mini-logo">125 Iberdrola</div>
+        <!-- Pista #5: año de copyright incoherente con el resto de la página -->
+        <div id="flag-year">
+          © 2024 Iberdrola, S.A.
+          <div class="flag-tooltip">
+            Pista #5: El año del aviso legal no coincide con el año mostrado en el resto de la página. Las incoherencias en los datos corporativos pueden ser una señal de alerta.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Panel inferior de revelación educativa (100% en navegador, sin red) -->
+  <aside class="demo-drawer" id="demo-drawer" aria-live="polite">
+    <div class="drawer-top-bar">
+      <button type="button" class="btn-minimize-drawer" id="btn-minimize-drawer">
+        ▾ Minimizar panel para ver toda la página
+      </button>
+    </div>
+    <div class="drawer-container">
+      <div class="edu-message-box">
+        <h3>Demostración completada (Lectura local en el navegador)</h3>
+        <p class="main-quote">
+
+        </p>
+        <div class="drawer-actions">
+          <button type="button" class="btn-drawer highlight" id="btn-toggle-flags">
+            Señalar las 5 pistas sutiles en la página
+          </button>
+          <button type="button" class="btn-drawer" id="btn-clear-demo">
+            Limpiar y hacer otra prueba
+          </button>
+        </div>
+      </div>
+
+      <div class="terminal-box">
+        <div class="terminal-header">
+          <span>INSPECTOR DEL FORMULARIO (MEMORIA VOLÁTIL LOCAL)</span>
+          <span>SIN ENVÍO DE RED</span>
+        </div>
+        <div class="terminal-log" id="terminal-log"></div>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    (function () {
+      const form = document.getElementById('demo-form');
+      const aliasInput = document.getElementById('alias-input');
+      const secretInput = document.getElementById('secret-input');
+      const toggleEyeBtn = document.getElementById('toggle-eye-btn');
+      const validationMsg = document.getElementById('validation-msg');
+      const drawer = document.getElementById('demo-drawer');
+      const terminalLog = document.getElementById('terminal-log');
+      const btnToggleFlags = document.getElementById('btn-toggle-flags');
+      const btnClearDemo = document.getElementById('btn-clear-demo');
+      const btnMinimizeDrawer = document.getElementById('btn-minimize-drawer');
+
+      let attemptCount = 0;
+      let flagsVisible = false;
+      let drawerMinimized = false;
+
+      function updateBodyBottomSpacing() {
+        if (!drawer.classList.contains('open')) {
+          document.body.style.paddingBottom = '0px';
+          return;
+        }
+        if (drawerMinimized) {
+          document.body.style.paddingBottom = '52px';
+        } else {
+          document.body.style.paddingBottom = (drawer.offsetHeight + 24) + 'px';
+        }
+      }
+
+      window.addEventListener('resize', updateBodyBottomSpacing);
+
+      btnMinimizeDrawer.addEventListener('click', function () {
+        drawerMinimized = !drawerMinimized;
+        drawer.classList.toggle('minimized', drawerMinimized);
+        btnMinimizeDrawer.textContent = drawerMinimized
+          ? '▴ Mostrar panel de resultados'
+          : '▾ Minimizar panel para ver toda la página';
+        updateBodyBottomSpacing();
+      });
+
+      // Mostrar / ocultar asteriscos manualmente si se desea comprobar
+      toggleEyeBtn.addEventListener('click', function () {
+        const isPassword = secretInput.getAttribute('type') === 'password';
+        secretInput.setAttribute('type', isPassword ? 'text' : 'password');
+      });
+
+      // Filtro preventivo para evitar que en la prueba se introduzca un email o DNI real
+      function looksLikeRealData(text) {
+        const emailRegex = /@/;
+        const dniRegex = /\b\d{7,8}[A-Za-z]\b/;
+        return emailRegex.test(text) || dniRegex.test(text);
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>"']/g, function (c) {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+          }[c];
+        });
+      }
+
+      form.addEventListener('submit', function (event) {
+        // Detiene cualquier envío por red: todo queda 100% local en el DOM
+        event.preventDefault();
+        validationMsg.style.display = 'none';
+
+        const aliasVal = aliasInput.value.trim();
+        const secretVal = secretInput.value.trim();
+
+        if (!aliasVal || !secretVal) {
+          validationMsg.textContent = 'Requerido';
+          validationMsg.style.display = 'block';
+          return;
+        }
+
+        if (looksLikeRealData(aliasVal) || looksLikeRealData(secretVal)) {
+          validationMsg.textContent = 'Recordatorio de seguridad: no utilices correos electrónicos (@) ni formatos de DNI. Usa solo palabras ficticias.';
+          validationMsg.style.display = 'block';
+          return;
+        }
+
+        // Volver a poner el campo en modo password para evidenciar que aunque haya asteriscos se lee el valor
+        secretInput.setAttribute('type', 'password');
+
+        attemptCount += 1;
+        const now = new Date().toLocaleTimeString('es-ES', { hour12: false });
+        const num = String(attemptCount).padStart(2, '0');
+
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML =
+          '[#' + num + ' | ' + now + '] ' +
+          'Usuario: <strong>' + escapeHtml(aliasVal) + '</strong> &rarr; ' +
+          'Campo password (con asteriscos): <span class="plain-pass">"' + escapeHtml(secretVal) + '"</span>';
+
+        terminalLog.prepend(entry);
+        drawerMinimized = false;
+        drawer.classList.remove('minimized');
+        btnMinimizeDrawer.textContent = '▾ Minimizar panel para ver toda la página';
+        drawer.classList.add('open');
+        updateBodyBottomSpacing();
+      });
+
+      // Resaltar / ocultar las pistas pedagógicas en la propia landing
+      btnToggleFlags.addEventListener('click', function () {
+        flagsVisible = !flagsVisible;
+        document.body.classList.toggle('show-flags', flagsVisible);
+
+        const targets = ['flag-logo', 'flag-links', 'flag-domain', 'flag-urgency', 'flag-year'];
+        targets.forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.classList.toggle('red-flag-active', flagsVisible);
+          }
+        });
+
+        btnToggleFlags.textContent = flagsVisible
+          ? 'Ocultar las pistas sutiles'
+          : 'Señalar las 5 pistas sutiles en la página';
+
+        updateBodyBottomSpacing();
+      });
+
+      // Limpiar la demostración de la memoria y ocultar pistas activas
+      btnClearDemo.addEventListener('click', function () {
+        aliasInput.value = '';
+        secretInput.value = '';
+        secretInput.setAttribute('type', 'password');
+        validationMsg.style.display = 'none';
+        terminalLog.innerHTML = '';
+        attemptCount = 0;
+
+        flagsVisible = false;
+        document.body.classList.remove('show-flags');
+        ['flag-logo', 'flag-links', 'flag-domain', 'flag-urgency', 'flag-year'].forEach(function (id) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.classList.remove('red-flag-active');
+          }
+        });
+        btnToggleFlags.textContent = 'Señalar las 5 pistas sutiles en la página';
+
+        drawerMinimized = false;
+        drawer.classList.remove('minimized');
+        drawer.classList.remove('open');
+        updateBodyBottomSpacing();
+        aliasInput.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
